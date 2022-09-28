@@ -40,9 +40,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="enPassant.txt">
       <Filter>Saved Games</Filter>
     </Text>
@@ -52,5 +49,10 @@
     <Text Include="game.txt">
       <Filter>Saved Games</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <Filter>Saved Games</Filter>
+    </None>
   </ItemGroup>
 </Project>

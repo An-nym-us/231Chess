@@ -4,6 +4,8 @@
  * draw something on the window, and accept simple user input
  **********************************************************************/
 
+#include "unitTests.h"
+
 #include "uiInteract.h"   // for Interface
 #include "uiDraw.h"       // for draw*
 #include <set>            // for STD::SET
@@ -500,6 +502,9 @@ int WINAPI WinMain(
 int main(int argc, char** argv)
 #endif // !_WIN32
 {
+   RunTests();
+
+   
    Interface ui("Chess");    
 
    // Initialize the game class
