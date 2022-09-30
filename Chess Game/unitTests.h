@@ -30,7 +30,7 @@ public:
 
 private:
    
-
+   // Interface
    void DrawKing_1();
    void DrawKing_2();
    void DrawKing_3();
@@ -88,11 +88,11 @@ private:
 
 
 };
+
 inline void RunTests()
 {
    UnitTest temp = UnitTest();
    temp.Testid(testID);
-
 }
 
 
@@ -162,7 +162,6 @@ void drawTest(const char* board, const Interface& ui, const set <int>& possible)
       }
 };
 
-         
 void callBackTest(Interface* pUI, void* p)
 {
    set <int> possible;
@@ -183,7 +182,6 @@ void callBackTest(Interface* pUI, void* p)
    drawTest(board, *pUI, possible);
 }
 
-
 void UnitTest::DrawKing_1()
 {
    // setUp
@@ -197,11 +195,11 @@ void UnitTest::DrawKing_1()
 
    //Verify
 
+   assert(true);
 
    //Teardown
-    ui;
-   //ogin = nullptr;
-   //assert(ogin == nullptr);
+   ui = nullptr;
+
 }
 
 
@@ -218,12 +216,13 @@ void UnitTest::DrawKing_2()
 
    //Verify
 
+   assert(true);
 
    //Teardown
-   ui;
-   //ogin = nullptr;
-   //assert(ogin == nullptr);
+   ui = nullptr;
 }
+
+
 void UnitTest::DrawKing_3()
 {
    // setUp
@@ -237,12 +236,15 @@ void UnitTest::DrawKing_3()
 
    //Verify
 
+   assert(true);
 
    //Teardown
-   ui;
-   //ogin = nullptr;
-   //assert(ogin == nullptr);
+   ui = nullptr;
 }
+
+
+
+
 
 void UnitTest::Testid(int test)
 {
