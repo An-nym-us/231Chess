@@ -43,7 +43,36 @@ private:
    void DrawBishop_1();
    void DrawBishop_2();
    void DrawBishop_3();
+
+   void DrawRook_1();
+   void DrawRook_2();
+   void DrawRook_3();
+
+   void DrawKnight_1();
+   void DrawKnight_2();
+   void DrawKnight_3();
+
+   void DrawPossible_1();
+   void DrawPossible_2();
    
+
+   // OG Stream.
+   void DrawBoard();
+
+   void DrawText_1();
+   void DrawText_2();
+   void DrawText_3();
+   void DrawText_4();
+
+   void DrawHover_1();
+   void DrawHover_2();
+   void DrawHover_3();
+   void DrawHover_4();
+
+   void DrawSelected_1();
+   void DrawSelected_2();
+   void DrawSelected_3();
+
    
    char board[64] = {
      'r', 'n', 'b', 'q', 'k', 'b', 'n', 'r',
@@ -73,11 +102,6 @@ void ResumeTests()
    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
    RunTests();
 }
-
-
-
-
-
 
 void drawTest(const char* board, const Interface& ui, const set <int>& possible)
 {
@@ -157,7 +181,6 @@ void callBackTest(Interface* pUI, void* p)
 
    // draw the board
    drawTest(board, *pUI, possible);
-   
 }
 
 
@@ -180,6 +203,8 @@ void UnitTest::DrawKing_1()
    //ogin = nullptr;
    //assert(ogin == nullptr);
 }
+
+
 void UnitTest::DrawKing_2()
 {
    // setUp
