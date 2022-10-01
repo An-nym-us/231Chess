@@ -191,6 +191,7 @@ void UnitTest::DrawKing_1()
    // draw the checkerboard
    //Exercise
    atexit(ResumeTests);
+
    ui.run(callBackTest, board);
 
    //Verify
@@ -242,8 +243,585 @@ void UnitTest::DrawKing_3()
    ui = nullptr;
 }
 
+void DrawKing_4()
+{
+    // setUp
+    Interface ui("Chess");
 
 
+    // draw the checkerboard
+    //Exercise
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+    //Verify
+
+    assert(true);
+
+    //Teardown
+    ui = nullptr;
+}
+
+void DrawQueen_1()
+{
+    // setUp
+    Interface ui("Chess");
+
+
+    // draw the checkerboard
+    //Exercise
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+    //Verify
+
+    assert(true);
+
+    //Teardown
+    ui = nullptr;
+}
+void DrawQueen_2()
+{
+    // setUp
+    Interface ui("Chess");
+
+
+    // draw the checkerboard
+    //Exercise
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+    //Verify
+
+    assert(true);
+
+    //Teardown
+    ui = nullptr;
+}
+void DrawQueen_3()
+{
+    // setUp
+    Interface ui("Chess");
+
+
+    // draw the checkerboard
+    //Exercise
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+    //Verify
+
+    assert(true);
+
+    //Teardown
+    ui = nullptr;
+}
+
+void DrawBishop_1()
+{
+    // setUp
+    Interface ui("Chess");
+
+
+    // draw the checkerboard
+    //Exercise
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+    //Verify
+
+    assert(true);
+
+    //Teardown
+    ui = nullptr;
+}
+void DrawBishop_2()
+{
+    // setUp
+    Interface ui("Chess");
+
+
+    // draw the checkerboard
+    //Exercise
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+    //Verify
+
+    assert(true);
+
+    //Teardown
+    ui = nullptr;
+}
+void DrawBishop_3()
+{
+    // setUp
+    Interface ui("Chess");
+
+
+    // draw the checkerboard
+    //Exercise
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+    //Verify
+
+    assert(true);
+
+    //Teardown
+    ui = nullptr;
+}
+
+void DrawRook_1()
+{
+    // setUp
+    Interface ui("Chess");
+
+
+    // draw the checkerboard
+    //Exercise
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+    //Verify
+
+    assert(true);
+
+    //Teardown
+    ui = nullptr;
+}
+void DrawRook_2()
+{
+    // setUp
+    Interface ui("Chess");
+
+
+    // draw the checkerboard
+    //Exercise
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+    //Verify
+
+    assert(true);
+
+    //Teardown
+    ui = nullptr;
+}
+void DrawRook_3()
+{
+    // setUp
+    Interface ui("Chess");
+
+
+    // draw the checkerboard
+    //Exercise
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+    //Verify
+
+    assert(true);
+
+    //Teardown
+    ui = nullptr;
+}
+
+void DrawKnight_1()
+{
+    // setUp
+    Interface ui("Chess");
+
+
+    // draw the checkerboard
+    //Exercise
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+    //Verify
+
+    assert(true);
+
+    //Teardown
+    ui = nullptr;
+}
+void DrawKnight_2()
+{
+    // setUp
+    Interface ui("Chess");
+
+
+    // draw the checkerboard
+    //Exercise
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+    //Verify
+
+    assert(true);
+
+    //Teardown
+    ui = nullptr;
+}
+void DrawKnight_3()
+{
+    // setUp
+    Interface ui("Chess");
+
+
+    // draw the checkerboard
+    //Exercise
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+    //Verify
+
+    assert(true);
+
+    //Teardown
+    ui = nullptr;
+}
+
+void DrawPossible_1()
+{
+    //Setup
+    og gout;
+    Interface ui("Chess");
+    const set <int>& possible();
+
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+    // draw the possible moves
+    set <int> ::iterator it;
+    for (it = possible.begin(); it != possible.end(); ++it)
+        gout.drawPossible(*it);
+
+    // Verify
+    assert(true);
+
+    //teardown
+
+    delete(&gout);
+    ui = nullptr;
+}
+void DrawPossible_2()
+{
+    //Setup
+    og gout;
+    Interface ui("Chess");
+    const set <int>& possible();
+
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+    // draw the possible moves
+    set <int> ::iterator it;
+    for (it = possible.begin(); it != possible.end(); ++it)
+        gout.drawPossible(*it);
+
+    // Verify
+    assert(true);
+
+    //teardown
+
+    delete(&gout);
+    ui = nullptr;
+}
+
+
+// OG Stream.
+void DrawBoard() 
+{
+    og gout;
+
+    // draw the checkerboard
+    gout.drawBoard();
+
+}
+
+void DrawText_1()
+{
+    //set up
+    Interface ui;
+    string sOut;
+    string sIn;
+
+
+    for (string::iterator it = sIn.begin(); it != sIn.end(); ++it)
+        // newline triggers an buffer flush and a move down
+        if (*it == '\n')
+        {
+            ui.drawText(x, y, sOut.c_str());
+            sOut.clear();
+            x -= 10;
+        }
+    // othewise append
+        else
+            sOut += *it;
+
+    // put the text on the screen
+    if (!sOut.empty())
+    {
+        ui.drawText(x, y, sOut.c_str());
+        x -= 10;
+    }
+
+    //verify
+    assert(true);
+
+    // teardown
+    str("");
+    ui = nullptr;
+    
+
+}
+void DrawText_2()
+{
+    //set up
+    Interface ui;
+    string sOut;
+    string sIn;
+
+
+    for (string::iterator it = sIn.begin(); it != sIn.end(); ++it)
+        // newline triggers an buffer flush and a move down
+        if (*it == '\n')
+        {
+            ui.drawText(x, y, sOut.c_str());
+            sOut.clear();
+            x -= 10;
+        }
+    // othewise append
+        else
+            sOut += *it;
+
+    // put the text on the screen
+    if (!sOut.empty())
+    {
+        ui.drawText(x, y, sOut.c_str());
+        x -= 10;
+    }
+
+    //verify
+    assert(true);
+
+    // teardown
+    str("");
+    ui = nullptr;
+}
+void DrawText_3() 
+{
+    //set up
+    Interface ui;
+    string sOut;
+    string sIn;
+
+
+    for (string::iterator it = sIn.begin(); it != sIn.end(); ++it)
+        // newline triggers an buffer flush and a move down
+        if (*it == '\n')
+        {
+            ui.drawText(x, y, sOut.c_str());
+            sOut.clear();
+            x -= 10;
+        }
+    // othewise append
+        else
+            sOut += *it;
+
+    // put the text on the screen
+    if (!sOut.empty())
+    {
+        ui.drawText(x, y, sOut.c_str());
+        x -= 10;
+    }
+
+    //verify
+    assert(true);
+
+    // teardown
+    str("");
+    ui = nullptr;
+}
+void DrawText_4()
+{
+    //set up
+    Interface ui;
+    string sOut;
+    string sIn;
+
+
+    for (string::iterator it = sIn.begin(); it != sIn.end(); ++it)
+        // newline triggers an buffer flush and a move down
+        if (*it == '\n')
+        {
+            ui.drawText(x, y, sOut.c_str());
+            sOut.clear();
+            x -= 10;
+        }
+    // othewise append
+        else
+            sOut += *it;
+
+    // put the text on the screen
+    if (!sOut.empty())
+    {
+        ui.drawText(x, y, sOut.c_str());
+        x -= 10;
+    }
+
+    //verify
+    assert(true);
+
+    // teardown
+    str("");
+    ui = nullptr;
+}
+
+void DrawHover_1() 
+{
+    //setup
+    og gout;
+    Interface ui;
+
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+
+    // draw any selections
+    gout.drawHover(ui.getHoverPosition());
+
+    // Verify
+    assert(true);
+
+    //teardown
+
+    delete(&gout);
+    ui = nullptr;
+}
+void DrawHover_2()
+{
+    //setup
+    og gout;
+    Interface ui;
+
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+
+    // draw any selections
+    gout.drawHover(ui.getHoverPosition());
+    // Verify
+    assert(true);
+
+    //teardown
+
+    delete(&gout);
+    ui = nullptr;
+}
+void DrawHover_3()
+{
+    //setup
+    og gout;
+    Interface ui;
+
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+
+    // draw any selections
+    gout.drawHover(ui.getHoverPosition());
+    // Verify
+    assert(true);
+
+    //teardown
+
+    delete(&gout);
+    ui = nullptr;
+}
+
+void DrawHover_4()
+{
+    //setup
+    og gout;
+    Interface ui;
+
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+
+    // draw any selections
+    gout.drawHover(ui.getHoverPosition());
+    // Verify
+    assert(true);
+
+    //teardown
+
+    delete(&gout);
+    ui = nullptr;
+}
+
+void DrawSelected_1() 
+{
+    //setup
+    og gout;
+    Interface ui;
+
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+
+    // draw any selections
+    gout.drawSelected(ui.getSelectPosition());
+    // Verify
+    assert(true);
+
+    //teardown
+
+    delete(&gout);
+    ui = nullptr;
+}
+void DrawSelected_2()
+{
+    //setup
+    og gout;
+    Interface ui;
+
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+
+    // draw any selections
+    gout.drawSelected(ui.getSelectPosition());
+    // Verify
+    assert(true);
+
+    //teardown
+
+    delete(&gout);
+    ui = nullptr;
+}
+void DrawSelected_3()
+{
+    //setup
+    og gout;
+    Interface ui;
+
+    atexit(ResumeTests);
+    ui.run(callBackTest, board);
+
+
+    // draw any selections
+    gout.drawSelected(ui.getSelectPosition());
+    // Verify
+    assert(true);
+
+    //teardown
+
+    delete(&gout);
+    ui = nullptr;
+}
 
 
 void UnitTest::Testid(int test)
