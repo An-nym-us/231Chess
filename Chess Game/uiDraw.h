@@ -68,4 +68,7 @@ private:
 
     // Put text at location X, Y
     void drawText(int x, int y, const char* text) const;
+
+
+    friend class unitTests;
 };

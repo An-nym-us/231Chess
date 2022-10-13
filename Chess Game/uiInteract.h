@@ -15,7 +15,7 @@
  **********************************************/
 
 #pragma once
-
+//class unitTests;
 
 /********************************************
  * INTERFACE
@@ -114,6 +114,15 @@ private:
    
    static int widthScreen;
    static int heightScreen;
+
+
+
+
+
+
+
+
+   friend class unitTests;
 };
 
 /************************************************************************

@@ -4,7 +4,7 @@
  * draw something on the window, and accept simple user input
  **********************************************************************/
 
-#include "unitTests.h"
+#include "Header.h"
 
 #include "uiInteract.h"   // for Interface
 #include "uiDraw.h"       // for draw*
@@ -502,7 +502,7 @@ int WINAPI WinMain(
 int main(int argc, char** argv)
 #endif // !_WIN32
 {
-   RunTests();
+   unitTests().RunTests();
 
    
    Interface ui("Chess");    
