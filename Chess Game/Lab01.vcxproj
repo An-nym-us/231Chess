@@ -117,10 +117,10 @@
     <ClCompile Include="uiInteract.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Header.h" />
+    <ClInclude Include="unitTest.h" />
     <ClInclude Include="uiDraw.h" />
     <ClInclude Include="uiInteract.h" />
-    <ClInclude Include="unitTests.h" />
+    <ClInclude Include="chessCritical.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

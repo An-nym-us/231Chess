@@ -15,7 +15,7 @@
  **********************************************/
 
 #pragma once
-//class unitTests;
+//class UnitTest;
 
 /********************************************
  * INTERFACE
@@ -122,7 +122,7 @@ private:
 
 
 
-   friend class unitTests;
+   friend class UnitTest;
 };
 
 /************************************************************************

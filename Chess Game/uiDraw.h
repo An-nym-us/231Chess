@@ -70,5 +70,5 @@ private:
     void drawText(int x, int y, const char* text) const;
 
 
-    friend class unitTests;
+    friend class UnitTest;
 };

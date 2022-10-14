@@ -35,10 +35,10 @@
     <ClInclude Include="uiInteract.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="unitTests.h">
+    <ClInclude Include="chessCritical.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header.h">
+    <ClInclude Include="unitTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
