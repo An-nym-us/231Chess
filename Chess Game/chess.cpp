@@ -1,11 +1,18 @@
+
 /**********************************************************************
- * GL Demo
- * Just a simple program to demonstrate how to create an Open GL window, 
- * draw something on the window, and accept simple user input
+ * Chess: main
+ *
+ * Authors:
+ *  Jonathan Lee Gunderson
+ *  Alex Michael Jacobs
+ *
+ * Description::
+ * Main location for chess functions
+ *
  **********************************************************************/
 
 #include "unitTest.h"
-
+#include "location.h"
 
 
 #include "uiInteract.h"   // for Interface
@@ -16,29 +23,20 @@
 #include <string>         // for STRING
 using namespace std;
 
-/***********************************************
- * Row Column
- * Simple row/column pair
- ************************************************/
-struct RC
-{
-   int row;
-   int col;
-};
-
-
 
 /****************************************************
  * IS NOT WHITE
  * Is the current location valid and the piece is either
  * black (uppercase) or space
  ***************************************************/
-inline bool isNotWhite(const char* board, int row, int col)
+inline bool isNotWhite(const char* board, Location loc )
 {
    // not white if we are off the board or if we are looking at a space
-   if (row < 0 || row >= 8 || col < 0 || col >= 8)
+   if (loc.getRow() < 0 || loc.getRow() >= 8 || loc.getCol() < 0 || loc.getCol() >= 8)
       return false;
-   char piece = board[row * 8 + col];
+
+  // const int temp = static_cast<int> (loc.getRow() * 8+ loc.getCol());
+   char piece = board[static_cast<int> (loc.getRow() * 8 + loc.getCol())];
 
    return piece == ' ' || (piece >= 'A' && piece <= 'Z');
 }
@@ -47,12 +45,14 @@ inline bool isNotWhite(const char* board, int row, int col)
  * IS  WHITE
  * Is the current location valid and the piece is white
  ***************************************************/
-inline bool isWhite(const char* board, int row, int col)
+
+inline bool isWhite(const char* board, Location loc)
 {
    // not white if we are off the board or if we are looking at a space
-   if (row < 0 || row >= 8 || col < 0 || col >= 8)
+   if (loc.getRow() < 0 || loc.getRow() >= 8 || loc.getCol() < 0 || loc.getCol() >= 8)
       return false;
-   char piece = board[row * 8 + col];
+  // static_cast<int> (loc.getRow() * 8 + loc.getCol());
+   char piece = board[static_cast<int> (loc.getRow() * 8 + loc.getCol())];
 
    return (piece >= 'a' && piece <= 'z');
 }
@@ -62,213 +62,245 @@ inline bool isWhite(const char* board, int row, int col)
  * Is the current location valid and the piece is either
  * white (lowercase) or space
  ***************************************************/
-inline bool isNotBlack(const char* board, int row, int col)
+inline bool isNotBlack(const char* board, Location loc)
 {
    // not white if we are off the board or if we are looking at a space
-   if (row < 0 || row >= 8 || col < 0 || col >= 8)
+   if (loc.getRow() < 0 || loc.getRow() >= 8 || loc.getCol() < 0 || loc.getCol() >= 8)
       return false;
-   char piece = board[row * 8 + col];
+   char piece = board[  static_cast<int> (loc.getRow() * 8 + loc.getCol())];
 
    return piece == ' ' || (piece >= 'a' && piece <= 'z');
 }
+
 
 /****************************************************
  * IS  BLACK
  * Is the current location valid and the piece is black
  ***************************************************/
-inline bool isBlack(const char* board, int row, int col)
+inline bool isBlack(const char* board, Location loc)
 {
    // not white if we are off the board or if we are looking at a space
-   if (row < 0 || row >= 8 || col < 0 || col >= 8)
+   if (loc.getRow() < 0 || loc.getRow() >= 8 || loc.getCol() < 0 || loc.getCol() >= 8)
       return false;
-   char piece = board[row * 8 + col];
+   char piece = board[static_cast<int> (loc.getRow() * 8 + loc.getCol())];
 
    return (piece >= 'A' && piece <= 'Z');
 }
+
 /*********************************************************
  * GET POSSIBLE MOVES
  * Determine all the possible moves for a given chess piece
  *********************************************************/
-set <int> getPossibleMoves(const char* board, int location)
+set <int> getPossibleMoves(const char* board, int locationPassed)
 {
    set <int> possible;
 
+
+   Location loc(locationPassed); // row col
+   Location loc2Chek; // rc
+   Location list[8];
+
    // return the empty set if there simply are no possible moves
-   if (location < 0 || location >= 64 || board[location] == ' ')
+   if (loc.locationFlattened() < 0 || loc.locationFlattened() >= 64 || board[static_cast<int>(loc.locationFlattened())] == ' ')
       return possible;
-   int row = location / 8;  // current location row
-   int col = location % 8;  // current location column
-   int r;                   // the row we are checking
-   int c;                   // the column we are checking
-   bool amBlack = isBlack(board, row, col);
+
+   bool amBlack = isBlack(board, loc);
 
    //
    // PAWN
    //
-   if (board[location] == 'P')
+   if (board[static_cast<int>(loc.locationFlattened())] == 'P')
    {
-      c = col;
-      r = row - 2;
-      if (row == 6 && board[r * 8 + c] == ' ')
-         possible.insert(r * 8 + c);  // forward two blank spaces
-      r = row - 1;
-      if (r >= 0 && board[r * 8 + c] == ' ')
-         possible.insert(r * 8 + c);  // forward one black space
-      c = col - 1;
-      if (isWhite(board, r, c))
-         possible.insert(r * 8 + c);    // attack left
-      c = col + 1;
-      if (isWhite(board, r, c))
-         possible.insert(r * 8 + c);    // attack right
-      // what about en-passant and pawn promotion
+      loc2Chek = loc;
+
+      loc2Chek.setRow(loc.getRow() - 2);
+
+      if (loc.getRow() == 6 && board[static_cast<int>(loc2Chek.locationFlattened())] == ' ')
+         possible.insert(static_cast<int>(loc2Chek.locationFlattened()));  // forward two blank spaces
+   
+      loc2Chek.setRow(loc.getRow() - 1);
+      if (loc2Chek.getRow() >= 0 && board[static_cast<int>(loc2Chek.locationFlattened())] == ' ')
+         possible.insert(static_cast<int>(loc2Chek.locationFlattened()));  // forward one black space
+     
+
+      loc2Chek.setCol(loc.getCol() - 1);
+      if (isWhite(board, loc2Chek))
+         possible.insert(static_cast<int>(loc2Chek.locationFlattened()));    // attack left
+      loc2Chek.setCol(loc.getCol() + 1);
+
+      if (isWhite(board, loc2Chek))
+         possible.insert(static_cast<int>(loc2Chek.locationFlattened()));    // attack right
+      
    }
-   if (board[location] == 'p')
+   if (board[static_cast<int>(loc.locationFlattened())] == 'p')
    {
-      c = col;
-      r = row + 2;
-      if (row == 1 && board[r * 8 + c] == ' ')
-         possible.insert(r * 8 + c);  // forward two blank spaces
-      r = row + 1;
-      if (r < 8 && board[r * 8 + c] == ' ')
-         possible.insert(r * 8 + c);    // forward one blank space
-      c = col - 1;
-      if (isBlack(board, r, c))
-         possible.insert(r * 8 + c);      // attack left
-      c = col + 1;
-      if (isBlack(board, r, c))
-         possible.insert(r * 8 + c);      // attack right
+      //c = col;
+      //r = row + 2;
+      loc2Chek = loc;
+      loc2Chek.setRow(loc.getRow() + 2);
+      if (loc.getRow() == 1 && board[static_cast<int>(loc2Chek.locationFlattened())] == ' ')
+         possible.insert(static_cast<int>(loc2Chek.locationFlattened()));  // forward two blank spaces
+      
+      //r = row + 1;
+      loc2Chek.setRow(loc.getRow() + 1);
+      if (loc2Chek.getRow() < 8 && board[static_cast<int>(loc2Chek.locationFlattened())] == ' ')
+         possible.insert(static_cast<int>(loc2Chek.locationFlattened()));    // forward one blank space
+   
+      //  c = col - 1;
+      loc2Chek.setCol(loc.getCol() - 1);
+
+      if (isBlack(board, loc2Chek))
+         possible.insert(static_cast<int>(loc2Chek.locationFlattened()));      // attack left
+     
+      // c = col + 1;
+      loc2Chek.setCol(loc.getCol() + 1);
+      if (isBlack(board, loc2Chek))
+         possible.insert(static_cast<int>(loc2Chek.locationFlattened()));      // attack right
       // what about en-passant and pawn promotion
    }
 
    //
    // KNIGHT
    //
-   if (board[location] == 'N' || board[location] == 'n')
+   if (board[static_cast<int>(loc.locationFlattened())] == 'N' || board[static_cast<int>(loc.locationFlattened())] == 'n')
    {
-      RC moves[8] = 
-      {
-               {-1,  2}, { 1,  2},
-      {-2,  1},                    { 2,  1},
-      {-2, -1},                    { 2, -1},
-               {-1, -2}, { 1, -2}
-      };
+
+      list[0] = Location(-1, 2);
+      list[1] = Location(1, 2);
+      list[2] = Location(-2, 1);
+      list[3] = Location(2, 1);
+      list[4] = Location(-2, -1);
+      list[5] = Location(2, -1);
+      list[6] = Location(-1, -2);
+      list[7] = Location(1, -2);
+
+
+
       for (int i = 0; i < 8; i++)
       {
-         r = row + moves[i].row;
-         c = col + moves[i].col;
-         if ( amBlack && isNotBlack(board, r, c))
-            possible.insert(r * 8 + c);
-         if (!amBlack && isNotWhite(board, r, c))
-            possible.insert(r * 8 + c);
+         loc2Chek.addLocations(loc, list[i]);
+
+         if ( amBlack && isNotBlack(board, loc2Chek))
+            possible.insert(loc2Chek.locationFlattened());
+         if (!amBlack && isNotWhite(board, loc2Chek))
+            possible.insert(loc2Chek.locationFlattened());
       }
    }
 
    //
    // KING
    //
-   if (board[location] == 'K' || board[location] == 'k')
+   if (board[static_cast<int>(loc.locationFlattened())] == 'K' || board[static_cast<int>(loc.locationFlattened())] == 'k')
    {
-      RC moves[8] =
-      {
-         {-1,  1}, {0,  1}, {1,  1},
-         {-1,  0},          {1,  0},
-         {-1, -1}, {0, -1}, {1, -1}
-      };
+
+      list[0] = Location(-1, 1);
+      list[1] = Location(0, 1);
+      list[2] = Location(1, 1);
+      list[3] = Location(1, 0);
+      list[4] = Location(-1, 0);
+      list[5] = Location(-1, -1);
+      list[6] = Location(0, -1);
+      list[7] = Location(1, -1);
       for (int i = 0; i < 8; i++)
       {
-         r = row + moves[i].row;
-         c = col + moves[i].col;
-         if ( amBlack && isNotBlack(board, r, c))
-            possible.insert(r * 8 + c);
-         if (!amBlack && isNotWhite(board, r, c))
-            possible.insert(r * 8 + c);
+         loc2Chek.addLocations(loc, list[i]);
+
+         if ( amBlack && isNotBlack(board, loc2Chek))
+            possible.insert(loc2Chek.locationFlattened());
+         if (!amBlack && isNotWhite(board, loc2Chek))
+            possible.insert(loc2Chek.locationFlattened());
       }
-      // what about castling?
+
    }
 
    //
    // QUEEN
    //
-   if (board[location] == 'Q' || board[location] == 'q')
+   if (board[static_cast<int>(loc.locationFlattened())] == 'Q' || board[static_cast<int>(loc.locationFlattened())] == 'q')
    {
-      RC moves[8] =
-      {
-         {-1,  1}, {0,  1}, {1,  1},
-         {-1,  0},          {1,  0},
-         {-1, -1}, {0, -1}, {1, -1}
-      };
+      list[0] = Location(-1, 1);
+      list[1] = Location(0, 1);
+      list[2] = Location(1, 1);
+      list[3] = Location(1, 0);
+      list[4] = Location(-1, 0);
+      list[5] = Location(-1, -1);
+      list[6] = Location(0, -1);
+      list[7] = Location(1, -1);
+
       for (int i = 0; i < 8; i++)
       {
-         r = row + moves[i].row;
-         c = col + moves[i].col;
-         while (r >= 0 && r < 8 && c >= 0 && c < 8 && 
-                board[r * 8 + c] == ' ')
+         loc2Chek.setRow(loc.getRow() + list[i].getRow());
+         loc2Chek.setCol(loc.getCol() + list[i].getCol());
+
+         while (loc2Chek.getRow() >= 0 && loc2Chek.getRow() < 8 && loc2Chek.getCol() >= 0 && loc2Chek.getCol() < 8 &&
+                board[static_cast<int>(loc2Chek.locationFlattened())] == ' ')
          {
-            possible.insert(r * 8 + c);
-            r += moves[i].row;
-            c += moves[i].col;
+            possible.insert(loc2Chek.locationFlattened());
+            
+            loc2Chek.addrow(list[i].getRow());
+            loc2Chek.addCol(list[i].getCol());
          }
-         if ( amBlack && isNotBlack(board, r, c))
-            possible.insert(r * 8 + c);
-         if (!amBlack && isNotWhite(board, r, c))
-            possible.insert(r * 8 + c);
+         if ( amBlack && isNotBlack(board, loc2Chek))
+            possible.insert(loc2Chek.locationFlattened());
+         if (!amBlack && isNotWhite(board, loc2Chek))
+            possible.insert(loc2Chek.locationFlattened());
       }
    }
 
    //
    // ROOK
    //
-   if (board[location] == 'R' || board[location] == 'r')
+   if (board[static_cast<int>(loc.locationFlattened())] == 'R' || board[static_cast<int>(loc.locationFlattened())] == 'r')
    {
-      RC moves[4] =
-      {
-                  {0,  1},
-         {-1, 0},         {1, 0},
-                  {0, -1}
-      };
+      list[0] = Location(0, 1);
+      list[1] = Location(-1, 0);
+      list[2] = Location(1, 0);
+      list[3] = Location(0, -1);
+
       for (int i = 0; i < 4; i++)
       {
-         r = row + moves[i].row;
-         c = col + moves[i].col;
-         while (r >= 0 && r < 8 && c >= 0 && c < 8 &&
-            board[r * 8 + c] == ' ')
+         loc2Chek.setRow(loc.getRow() + list[i].getRow());
+         loc2Chek.setCol(loc.getCol() + list[i].getCol());
+
+         while (loc2Chek.getRow() >= 0 && loc2Chek.getRow() < 8 && loc2Chek.getCol() >= 0 && loc2Chek.getCol() < 8 &&
+            board[static_cast<int>(loc2Chek.locationFlattened())] == ' ')
          {
-            possible.insert(r * 8 + c);
-            r += moves[i].row;
-            c += moves[i].col;
+            possible.insert(loc2Chek.locationFlattened());
+            loc2Chek.addrow(list[i].getRow());
+            loc2Chek.addCol(list[i].getCol());
          }
-         if (amBlack && isNotBlack(board, r, c))
-            possible.insert(r * 8 + c);
-         if (!amBlack && isNotWhite(board, r, c))
-            possible.insert(r * 8 + c);
+         if (amBlack && isNotBlack(board, loc2Chek))
+            possible.insert(loc2Chek.locationFlattened());
+         if (!amBlack && isNotWhite(board, loc2Chek))
+            possible.insert(loc2Chek.locationFlattened());
       }
    }
 
    //
    // BISHOP
    //
-   if (board[location] == 'B' || board[location] == 'b')
+   if (board[static_cast<int>(loc.locationFlattened())] == 'B' || board[static_cast<int>(loc.locationFlattened())] == 'b')
    {
-      RC moves[4] =
-      {
-         {-1,  1}, {1,  1},
-         {-1, -1}, {1, -1}
-      };
+      list[0] = Location(-1, 1);
+      list[1] = Location(1,1);
+      list[2] = Location(-1,-1);
+      list[3] = Location(1, -1);
+
       for (int i = 0; i < 4; i++)
       {
-         r = row + moves[i].row;
-         c = col + moves[i].col;
-         while (r >= 0 && r < 8 && c >= 0 && c < 8 &&
-            board[r * 8 + c] == ' ')
+         loc2Chek.setRow(loc.getRow() + list[i].getRow());
+         loc2Chek.setCol(loc.getCol() + list[i].getCol());
+         while (loc2Chek.getRow() >= 0 && loc2Chek.getRow() < 8 && loc2Chek.getCol() >= 0 && loc2Chek.getCol() < 8 &&
+            board[static_cast<int>(loc2Chek.locationFlattened())] == ' ')
          {
-            possible.insert(r * 8 + c);
-            r += moves[i].row;
-            c += moves[i].col;
+            possible.insert(loc2Chek.locationFlattened());
+            loc2Chek.addrow(list[i].getRow());
+            loc2Chek.addCol(list[i].getCol());
          }
-         if (amBlack && isNotBlack(board, r, c))
-            possible.insert(r * 8 + c);
-         if (!amBlack && isNotWhite(board, r, c))
-            possible.insert(r * 8 + c);
+         if (amBlack && isNotBlack(board, loc2Chek))
+            possible.insert(loc2Chek.locationFlattened());
+         if (!amBlack && isNotWhite(board, loc2Chek))
+            possible.insert(loc2Chek.locationFlattened());
       }
    }
 
