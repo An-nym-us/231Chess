@@ -15,6 +15,7 @@
 #include "uiInteract.h" // for INTERFACE
 #include "uiDraw.h"     // for RANDOM and DRAW*
 #include "position.h"      // for POINT
+#include "gps.h"
 using namespace std;
 
 /*************************************************************************
@@ -27,38 +28,45 @@ public:
    Demo(Position ptUpperRight) :
       ptUpperRight(ptUpperRight)
    {
-      ptHubble.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
-      ptHubble.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
+    //  ptHubble.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
+    //  ptHubble.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
 
-      ptSputnik.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
-      ptSputnik.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
+     // ptSputnik.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
+    //  ptSputnik.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
 
-      ptStarlink.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
-      ptStarlink.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
+    //  ptStarlink.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
+    //  ptStarlink.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
 
-      ptCrewDragon.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
-      ptCrewDragon.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
+    //  ptCrewDragon.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
+    //  ptCrewDragon.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
 
-      ptShip.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
-      ptShip.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
+    //  ptShip.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
+    //  ptShip.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
 
-      ptGPS.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
-      ptGPS.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
+     // ptGPS.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
+      //ptGPS.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
+      
+     
 
-      ptStar.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
-      ptStar.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
+      gps = new GPS(0, 42164000); //  value in meters
+
+    //  ptStar.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
+    //  ptStar.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
 
       angleShip = 0.0;
       angleEarth = 0.0;
       phaseStar = 0;
    }
 
+   GPS* gps;
+
+
    Position ptHubble;
    Position ptSputnik;
    Position ptStarlink;
    Position ptCrewDragon;
    Position ptShip;
-   Position ptGPS;
+   //Position ptGPS;
    Position ptStar;
    Position ptUpperRight;
 
@@ -84,6 +92,7 @@ void callBack(const Interface* pUI, void* p)
    //
    // accept input
    //
+
 
    // move by a little
    if (pUI->isUp())
@@ -111,13 +120,28 @@ void callBack(const Interface* pUI, void* p)
 
    Position pt;
 
+
+
+   //drawGPSCenter(pt, pDemo->angleShip);
+   pDemo->gps->updateTransformRelitiveToEarth();
+   drawGPS(pDemo->gps->getPostion(), pDemo->angleShip);  // Display the GPS to the Screen.
+  
+
+
+
+
+
+
+
+
+
    // draw satellites
    drawCrewDragon(pDemo->ptCrewDragon, pDemo->angleShip);
    drawHubble    (pDemo->ptHubble,     pDemo->angleShip);
    drawSputnik   (pDemo->ptSputnik,    pDemo->angleShip);
    drawStarlink  (pDemo->ptStarlink,   pDemo->angleShip);
    drawShip      (pDemo->ptShip,       pDemo->angleShip, pUI->isSpace());
-   drawGPS       (pDemo->ptGPS,        pDemo->angleShip);
+   //drawGPS       (pDemo->ptGPS,        pDemo->angleShip);
 
    // draw parts
    pt.setPixelsX(pDemo->ptCrewDragon.getPixelsX() + 20);
@@ -126,9 +150,9 @@ void callBack(const Interface* pUI, void* p)
    pt.setPixelsX(pDemo->ptHubble.getPixelsX() + 20);
    pt.setPixelsY(pDemo->ptHubble.getPixelsY() + 20);
    drawHubbleLeft(pt, pDemo->angleShip);      // notice only two parameters are set
-   pt.setPixelsX(pDemo->ptGPS.getPixelsX() + 20);
-   pt.setPixelsY(pDemo->ptGPS.getPixelsY() + 20);
-   drawGPSCenter(pt, pDemo->angleShip);       // notice only two parameters are set
+   //pt.setPixelsX(pDemo->ptGPS.getPixelsX() + 20);
+   //pt.setPixelsY(pDemo->ptGPS.getPixelsY() + 20);
+  // drawGPSCenter(pt, pDemo->angleShip);       // notice only two parameters are set
    pt.setPixelsX(pDemo->ptStarlink.getPixelsX() + 20);
    pt.setPixelsY(pDemo->ptStarlink.getPixelsY() + 20);
    drawStarlinkArray(pt, pDemo->angleShip);   // notice only two parameters are set
