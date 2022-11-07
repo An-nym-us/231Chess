@@ -2,7 +2,7 @@
 
 void GPS::updateGravity()
 {
-   GravityHight = GRAVITY * pow((6378000 / (DistanceFromCenterOfEarth)), 2);
+   GravityHight = (-1)* GRAVITY * pow((6378000 / (DistanceFromCenterOfEarth)), 2);
    angleInRadians = atan2(location.getMetersY(), location.getMetersX());
 
 

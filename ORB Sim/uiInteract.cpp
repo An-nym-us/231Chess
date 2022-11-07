@@ -40,7 +40,7 @@
 #endif // _WIN32
 
 #include "uiInteract.h"
-#include "position.h"
+#include "point2D.h"
 
 using namespace std;
 
@@ -275,7 +275,7 @@ Interface::~Interface()
  *           title:      The text for the titlebar of the window
  *************************************************************************/
 void Interface::initialize(int argc, char ** argv, const char * title, 
-                           const Position & ptUpperRight)
+                           const Point2D & ptUpperRight)
 {
    if (initialized)
       return;

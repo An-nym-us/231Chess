@@ -1,31 +1,31 @@
 /***********************************************************************
  * Header File:
- *    Test Position : Test the Position class
+ *    Test Point2D : Test the Point2D class
  * Author:
  *    Br. Helfrich
  * Summary:
- *    All the unit tests for Position
+ *    All the unit tests for Point2D
  ************************************************************************/
 
 
 #pragma once
 
 #include <iostream>
-#include "position.h"
+#include "point2D.h"
 #include <cassert>
 
 using namespace std;
 
 /*******************************
- * TEST Position
- * A friend class for Position which contains the Position unit tests
+ * TEST Point2D
+ * A friend class for Point2D which contains the Point2D unit tests
  ********************************/
 class TestPosition
 {
 public:
    void run()
    {
-      Position().setZoom(1000.0 /* 1km equals 1 pixel */);
+      Point2D().setZoom(1000.0 /* 1km equals 1 pixel */);
       defaultConstructor();
       nonDefaultConstructor();
       copyConstructor();
@@ -49,7 +49,7 @@ private:
    void defaultConstructor() const
    {  // setup
       // exercise
-      Position pos;
+      Point2D pos;
       // verify
       assert(pos.x == 0.0);
       assert(pos.y == 0.0);
@@ -58,7 +58,7 @@ private:
    void nonDefaultConstructor() const
    {  // setup
       // exercise
-      Position pos(3000.0, 9000.0);
+      Point2D pos(3000.0, 9000.0);
       // verify
       assert(pos.x == 3000.0);
       assert(pos.y == 9000.0);
@@ -66,11 +66,11 @@ private:
 
    void copyConstructor() const
    {  // setup
-      Position pos1;
+      Point2D pos1;
       pos1.x = 4000.0;
       pos1.y = 2000.0;
       // exercise
-      Position pos2(pos1);
+      Point2D pos2(pos1);
       // verify
       assert(pos1.x == 4000.0);
       assert(pos1.y == 2000.0);
@@ -80,11 +80,11 @@ private:
 
    void assignment() const
    {  // setup
-      Position pos1;
+      Point2D pos1;
       pos1.x = 4000.0;
       pos1.y = 2000.0;
       // exercise
-      Position pos2 = pos1;
+      Point2D pos2 = pos1;
       // verify
       assert(pos1.x == 4000.0);
       assert(pos1.y == 2000.0);
@@ -94,7 +94,7 @@ private:
    
    void setMeters() const
    {  // setup
-      Position pos;
+      Point2D pos;
       pos.x = 0.0;
       pos.y = 0.0;
       // exercise
@@ -107,7 +107,7 @@ private:
  
    void setPixels() const
    {  // setup
-      Position pos;
+      Point2D pos;
       pos.x = 0.0;
       pos.y = 0.0;
       // exercise
@@ -120,7 +120,7 @@ private:
    
    void addMeters() const
    {  // setup
-      Position pos;
+      Point2D pos;
       pos.x = 800.0;
       pos.y = 1600.0;
       // exercise
@@ -133,7 +133,7 @@ private:
    
    void addPixels() const
    {  // setup
-      Position pos;
+      Point2D pos;
       pos.x = 2000.0;
       pos.y = 4000.0;
       // exercise

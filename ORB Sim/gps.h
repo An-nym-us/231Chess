@@ -1,15 +1,17 @@
 #pragma once
 #include <iostream>
-#include "position.h"
+
+#include "object.h"
+#include "point2D.h"
 
 using namespace std;
-class GPS : private Position
+class GPS : public Object
 {
 public:
    GPS() {
 
    }
-   GPS(Position startingPostion)
+   GPS(Point2D startingPostion)
    {
       location = startingPostion;
    }
@@ -19,31 +21,39 @@ public:
       location.setMetersY(y);
    }
 
-   void updateTransformRelitiveToEarth() 
-   { 
+   void updateTransformRelitiveToEarth()
+   {
       updateGravity();
       updateAcceleration();
       updateVelocity();
       updateLocation();
+
+      object->returnVelocity();
+
+      
    }
 
    
-   Position getPostion() { return location; }
+   Point2D getPostion() { return location; }
 private:
    
+   Object* object = new Object();
+
+   
+
    void updateGravity();
    void updateVelocity();
    void updateAcceleration();
    void updateLocation();
    const double T = 144.0;
 
-   Position location;
+   Point2D location;
    const double DistanceFromCenterOfEarth = 42164000.0;
-   const double GeoTargetVelocity = 3100.0;
+   const double GeoTargetVelocity = 3000.0;
    const double GRAVITY = -9.8067; // m/s^2 at sea level
    double angleRelToEarth; // in degrees
-   Position velocityRelEarth = Position(0.0, 0.0);
-   Position accelerationRelEarth = Position(0.0, 0.0);
+   Point2D velocityRelEarth = Point2D(0.0, 0.0);
+   Point2D accelerationRelEarth = Point2D(0.0, 0.0);
    
 
    double GravityHight = 0;;

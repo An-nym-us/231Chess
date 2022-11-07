@@ -14,8 +14,9 @@
 #include <cassert>      // for ASSERT
 #include "uiInteract.h" // for INTERFACE
 #include "uiDraw.h"     // for RANDOM and DRAW*
-#include "position.h"      // for POINT
+//#include "point2D.h"      // for POINT
 #include "gps.h"
+
 using namespace std;
 
 /*************************************************************************
@@ -25,7 +26,7 @@ using namespace std;
 class Demo
 {
 public:
-   Demo(Position ptUpperRight) :
+   Demo(Point2D ptUpperRight) :
       ptUpperRight(ptUpperRight)
    {
     //  ptHubble.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
@@ -56,24 +57,39 @@ public:
       angleShip = 0.0;
       angleEarth = 0.0;
       phaseStar = 0;
+
+
+
+      
    }
+
+  
+   
+
 
    GPS* gps;
 
-
-   Position ptHubble;
-   Position ptSputnik;
-   Position ptStarlink;
-   Position ptCrewDragon;
-   Position ptShip;
-   //Position ptGPS;
-   Position ptStar;
-   Position ptUpperRight;
+   
+   Point2D ptHubble;
+   Point2D ptSputnik;
+   Point2D ptStarlink;
+   Point2D ptCrewDragon;
+   Point2D ptShip;
+   //Point2D ptGPS;
+   Point2D ptStar;
+   Point2D ptUpperRight;
 
    unsigned char phaseStar;
 
    double angleShip;
    double angleEarth;
+
+
+
+private:
+
+
+   
 };
 
 /*************************************
@@ -92,7 +108,7 @@ void callBack(const Interface* pUI, void* p)
    //
    // accept input
    //
-
+   
 
    // move by a little
    if (pUI->isUp())
@@ -118,7 +134,7 @@ void callBack(const Interface* pUI, void* p)
    // draw everything
    //
 
-   Position pt;
+   Point2D pt;
 
 
 
@@ -173,7 +189,7 @@ void callBack(const Interface* pUI, void* p)
    drawEarth(pt, pDemo->angleEarth);
 }
 
-double Position::metersFromPixels = 40.0;
+double Point2D::metersFromPixels = 40.0;
 
 /*********************************
  * Initialize the simulation and set it in motion
@@ -190,7 +206,7 @@ int main(int argc, char** argv)
 #endif // !_WIN32
 {
    // Initialize OpenGL
-   Position ptUpperRight;
+   Point2D ptUpperRight;
    ptUpperRight.setZoom(128000.0 /* 128km equals 1 pixel */);
    ptUpperRight.setPixelsX(1000.0);
    ptUpperRight.setPixelsY(1000.0);
