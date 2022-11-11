@@ -27,10 +27,7 @@ public:
       updateAcceleration();
       updateVelocity();
       updateLocation();
-
-      object->returnVelocity();
-
-      
+    
    }
 
    

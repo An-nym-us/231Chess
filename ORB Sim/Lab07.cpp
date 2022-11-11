@@ -16,7 +16,7 @@
 #include "uiDraw.h"     // for RANDOM and DRAW*
 //#include "point2D.h"      // for POINT
 #include "gps.h"
-
+#include "unitTests.h"
 using namespace std;
 
 /*************************************************************************
@@ -205,6 +205,12 @@ int WINAPI wWinMain(
 int main(int argc, char** argv)
 #endif // !_WIN32
 {
+   
+   unitTests().runner();
+   
+   
+   
+   
    // Initialize OpenGL
    Point2D ptUpperRight;
    ptUpperRight.setZoom(128000.0 /* 128km equals 1 pixel */);
