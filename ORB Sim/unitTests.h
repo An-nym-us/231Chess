@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cassert>
-#include "point2D.h"
+#include "point.h"
 #include "object.h"
 #include <iostream>
 
@@ -26,10 +26,10 @@ private:
    void updateAcceleration_3();
    void updateAcceleration_4();
 
-   void updateLocation_1();
-   void updateLocation_2();
-   void updateLocation_3();
-   void updateLocation_4();
+   void updatelocation_1();
+   void updatelocation_2();
+   void updatelocation_3();
+   void updatelocation_4();
 
    /// <summary>
    /// //////////////////////
@@ -75,15 +75,15 @@ void unitTests::runner()
    updateVelocity_3();
    updateVelocity_4(); 
 
-   updateAcceleration_1();
-   updateAcceleration_2();
-   updateAcceleration_3();
-   updateAcceleration_4();
+   //updateAcceleration_1();
+   //updateAcceleration_2();
+   //updateAcceleration_3();
+   //updateAcceleration_4();
 
-   updateLocation_1();
-   updateLocation_2();
-   updateLocation_3();
-   updateLocation_4();
+   //updatelocation_1();
+   //updatelocation_2();
+   //updatelocation_3();
+   //updatelocation_4();
 
    setMeters_1();
    setMeters_2();
@@ -127,8 +127,8 @@ void unitTests::updateGravity_1()
    obj->updateGravity();
    
    //Verify
-   assert(rotation == 45);
-   assert(GravityHight = 9.8);
+   assert(obj->rotation == 45);
+   assert(obj->GravityHight = 9.8);
 
 
    //Teardown
@@ -162,6 +162,7 @@ void unitTests::updateVelocity_1()
    resetTests();
 }
 
+
 void unitTests::updateVelocity_2()
 {
    // Setup  
@@ -180,8 +181,8 @@ void unitTests::updateVelocity_2()
    // Exercise 
    obj->updateVelocity();
    //Verify
-   assert(obj->dx == .5);
-   assert(obj->dy == .5);
+   assert(obj->dx == 1);
+   assert(obj->dy == 1);
 
 
    //Teardown
@@ -200,14 +201,14 @@ void unitTests::updateVelocity_3()
    obj->ddy = 0;
    obj->dx = 0;
    obj->dy = 0;
-   obj->rotation = 45;
+   obj->rotation = 0;
    obj->T = 1;
 
    // Exercise 
    obj->updateVelocity();
    //Verify
-   assert(obj->dx == .5);
-   assert(obj->dy == .5);
+   assert(obj->dx == 0);
+   assert(obj->dy == 0);
 
 
    //Teardown
@@ -232,8 +233,8 @@ void unitTests::updateVelocity_4()
    // Exercise 
    obj->updateVelocity();
    //Verify
-   assert(obj->dx == 0);
-   assert(obj->dy == 0);
+   assert(obj->dx == 1);
+   assert(obj->dy == -1);
 
 
    //Teardown
@@ -350,7 +351,7 @@ void unitTests::updateAcceleration_4()
    resetTests();
 }
 
-void unitTests::updateLocation_1()
+void unitTests::updatelocation_1()
 {
    // Setup  
    resetTests();
@@ -358,29 +359,26 @@ void unitTests::updateLocation_1()
 
    obj = new Object();
    assert(obj);
-   obj->Location = new Point();
-   obj->Location->setMetersX(1);
-   obj->Location->setMetersY(1);
+   obj->location.setMetersX(1);
+   obj->location.setMetersY(1);
    obj->ddx = 0;
    obj->ddy = 0;
    obj->dx = 0;
    obj->dy = 0;
    obj->T = 1;
    // Exercise 
-   obj->updateLocation();
+   obj->updatelocation();
    //Verify
    
-   assert(obj->Location->getMetersX() == 1);
-   assert(obj->Location->getMetersY() == 1);
-
+   assert(obj->location.getMetersX() == 1);
+   assert(obj->location.getMetersY() == 1);
 
    //Teardown
-   delete obj->Location;
-   obj->Location = nullptr;
+
    resetTests();
 }
 
-void unitTests::updateLocation_2()
+void unitTests::updatelocation_2()
 {
    // Setup  
    resetTests();
@@ -388,28 +386,26 @@ void unitTests::updateLocation_2()
 
    obj = new Object();
    assert(obj);
-   obj->Location = new Point();
-   obj->Location->setMetersX(1);
-   obj->Location->setMetersY(1);
+
+   obj->location.setMetersX(1);
+   obj->location.setMetersY(1);
    obj->ddx = 0;
    obj->ddy = 0;
    obj->dx = 1;
    obj->dy = 1;
    obj->T = 1;
    // Exercise 
-   obj->updateLocation();
+   obj->updatelocation();
    //Verify
-   assert(obj->Location->getMetersX() == 2);
-   assert(obj->Location->getMetersY() == 2);
+   assert(obj->location.getMetersX() == 2);
+   assert(obj->location.getMetersY() == 2);
 
 
    //Teardown
-   delete obj->Location;
-   obj->Location = nullptr;
    resetTests();
 }
 
-void unitTests::updateLocation_3()
+void unitTests::updatelocation_3()
 {
    // Setup  
    resetTests();
@@ -417,28 +413,25 @@ void unitTests::updateLocation_3()
 
    obj = new Object();
    assert(obj);
-   obj->Location = new Point();
-   obj->Location->setMetersX(1);
-   obj->Location->setMetersY(1);
+   obj->location.setMetersX(1);
+   obj->location.setMetersY(1);
    obj->ddx = 1;
    obj->ddy = 1;
    obj->dx = 1;
    obj->dy = 1;
    obj->T = 1;
    // Exercise 
-   obj->updateLocation();
+   obj->updatelocation();
    //Verify
-   assert(obj->Location->getMetersX() == 2.5);
-   assert(obj->Location->getMetersY() == 2.5);
+   assert(obj->location.getMetersX() == 2.5);
+   assert(obj->location.getMetersY() == 2.5);
 
 
    //Teardown
-   delete obj->Location;
-   obj->Location = nullptr;
    resetTests();
 }
 
-void unitTests::updateLocation_4()
+void unitTests::updatelocation_4()
 {
    // Setup  
    resetTests();
@@ -446,27 +439,24 @@ void unitTests::updateLocation_4()
 
    obj = new Object();
    assert(obj);
-   obj->Location = new Point();
-   obj->Location->setMetersX(1);
-   obj->Location->setMetersY(1);
+   obj->location.setMetersX(1);
+   obj->location.setMetersY(1);
    obj->ddx = 1;
    obj->ddy = 1;
    obj->dx = 0;
    obj->dy = 0;
    obj->T = 1;
    // Exercise 
-   obj->updateLocation();
+   obj->updatelocation();
    //Verify
-   assert(obj->Location->getMetersX() == 1.5);
-   assert(obj->Location->getMetersY() == 1.5);
+   assert(obj->location.getMetersX() == 1.5);
+   assert(obj->location.getMetersY() == 1.5);
 
 
    //Teardown
-   delete obj->Location;
-   obj->Location = nullptr;
    resetTests();
 }
-
+   
 
 ///////////////////////////////////////////////////////////////////////
 
@@ -506,7 +496,7 @@ void unitTests::setMeters_2()
    pt->y = 0;
 
    // Exercise 
-   pt->setMeters(1,-10);
+   pt->setMeters(1,-1);
 
    //Verify
    assert(pt->x == 1);
@@ -622,11 +612,11 @@ void unitTests::computeDistnace_1()
 
 
    // Exercise 
-   double output = pt->computeDistance(Point2D(0,0), Point2D(1,1));
+   double output = pt->computeDistance(Point(0,0), Point(1,1));
 
    //Verify
-   assert(output < 1.4);
-   assert(output > 1.42);
+   assert(output > 1.4);
+   assert(output < 1.42);
 
 
    //Teardown
@@ -646,17 +636,16 @@ void unitTests::computeDistnace_2()
 
 
    // Exercise 
-   double output = pt->computeDistance(Point2D(0, 0), Point2D(-1, -1));
+   double output = pt->computeDistance(Point(0, 0), Point(-1, -1));
 
    //Verify
-   assert(output < -1.4);
-   assert(output > -1.42);
+   assert(output > 1.4);
+   assert(output < 1.42);
 
 
    //Teardown
    resetTests();
 }
-
 
 void unitTests::getMeters_x_1()
 {
@@ -734,7 +723,6 @@ void unitTests::getMeters_y_2()
    resetTests();
 }
 
-
 void unitTests::addMeters_x_1()
 {
    // Setup  
@@ -743,7 +731,7 @@ void unitTests::addMeters_x_1()
 
    pt = new Point();
    assert(pt);
-   pt->x = 1;
+   pt->x = 0;
 
 
    // Exercise 

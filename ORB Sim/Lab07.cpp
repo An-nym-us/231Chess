@@ -26,7 +26,7 @@ using namespace std;
 class Demo
 {
 public:
-   Demo(Point2D ptUpperRight) :
+   Demo(Point ptUpperRight) :
       ptUpperRight(ptUpperRight)
    {
     //  ptHubble.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
@@ -49,7 +49,7 @@ public:
       
      
 
-      gps = new GPS(0, 42164000); //  value in meters
+      //gps = new GPS(0, 42164000); //  value in meters
 
     //  ptStar.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
     //  ptStar.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
@@ -67,17 +67,17 @@ public:
    
 
 
-   GPS* gps;
+  // GPS* gps;
 
    
-   Point2D ptHubble;
-   Point2D ptSputnik;
-   Point2D ptStarlink;
-   Point2D ptCrewDragon;
-   Point2D ptShip;
-   //Point2D ptGPS;
-   Point2D ptStar;
-   Point2D ptUpperRight;
+   Point ptHubble;
+   Point ptSputnik;
+   Point ptStarlink;
+   Point ptCrewDragon;
+   Point ptShip;
+   //Point ptGPS;
+   Point ptStar;
+   Point ptUpperRight;
 
    unsigned char phaseStar;
 
@@ -134,13 +134,13 @@ void callBack(const Interface* pUI, void* p)
    // draw everything
    //
 
-   Point2D pt;
+   Point pt;
 
 
 
    //drawGPSCenter(pt, pDemo->angleShip);
-   pDemo->gps->updateTransformRelitiveToEarth();
-   drawGPS(pDemo->gps->getPostion(), pDemo->angleShip);  // Display the GPS to the Screen.
+  // pDemo->gps->updateTransformRelitiveToEarth();
+  // drawGPS(pDemo->gps->getPostion(), pDemo->angleShip);  // Display the GPS to the Screen.
   
 
 
@@ -189,7 +189,7 @@ void callBack(const Interface* pUI, void* p)
    drawEarth(pt, pDemo->angleEarth);
 }
 
-double Point2D::metersFromPixels = 40.0;
+double Point::metersFromPixels = 40.0;
 
 /*********************************
  * Initialize the simulation and set it in motion
@@ -212,7 +212,7 @@ int main(int argc, char** argv)
    
    
    // Initialize OpenGL
-   Point2D ptUpperRight;
+   Point ptUpperRight;
    ptUpperRight.setZoom(128000.0 /* 128km equals 1 pixel */);
    ptUpperRight.setPixelsX(1000.0);
    ptUpperRight.setPixelsY(1000.0);

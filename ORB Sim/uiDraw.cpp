@@ -35,7 +35,7 @@
 #include <math.h>
 #endif // _WIN32
 
-#include "point2D.h"
+#include "point.h"
 #include "uiDraw.h"
 
 using namespace std;
@@ -61,14 +61,14 @@ const int RGB_GREEN[] =      {   0, 150,   0 };
  *           rotation Rotation in degrees
  *    OUTPUT point    The new position
  *************************************************************************/
-Point2D rotate(const Point2D& origin, double x, double y, double rotation)
+Point rotate(const Point& origin, double x, double y, double rotation)
 {
    // because sine and cosine are expensive, we want to call them only once
    double cosA = cos(rotation);
    double sinA = sin(rotation);
 
    // start with our original point
-   Point2D ptReturn(origin);
+   Point ptReturn(origin);
 
    // find the new values
    ptReturn.addPixelsX(x * cosA + y * sinA);
@@ -120,7 +120,7 @@ void glColor(const int* rgb)
  * GL VERTEXT POINT
  * Just a more convenient format of glVertext2f
  *************************************************************************/
-inline void glVertexPoint(const Point2D & point)
+inline void glVertexPoint(const Point & point)
 {
    glVertex2f((GLfloat)point.getPixelsX(), (GLfloat)point.getPixelsY());
 }
@@ -129,7 +129,7 @@ inline void glVertexPoint(const Point2D & point)
  * GL DRAW RECT
  * Draw a colored rectangle
  *************************************************************************/
-void glDrawRect(const Point2D & center, const Point2D & offset,
+void glDrawRect(const Point & center, const Point & offset,
                 const ColorRect & rect, double rotation)
 {
    glBegin(GL_QUADS);
@@ -159,7 +159,7 @@ void glDrawRect(const Point2D & center, const Point2D & offset,
  *   INPUT  topLeft   The top left corner of the text
  *          text      The text to be displayed
  ************************************************************************/
-void drawText(const Point2D& topLeft, const char* text)
+void drawText(const Point& topLeft, const char* text)
 {
    void* pFont = GLUT_BITMAP_HELVETICA_12;  // also try _18
 
@@ -209,7 +209,7 @@ void ogstream :: flush()
  * Draw a projectile on the screen at a given point.
  *   INPUT  pt     The location of the projectile
  *************************************************************************/
-void drawProjectile(const Point2D& pt)
+void drawProjectile(const Point& pt)
 {
    ColorRect rects[] =
    {
@@ -217,7 +217,7 @@ void drawProjectile(const Point2D& pt)
    };
 
    for (int i = 0; i < sizeof(rects) / sizeof(ColorRect); i++)
-      glDrawRect(pt, Point2D(), rects[i], 0.0);
+      glDrawRect(pt, Point(), rects[i], 0.0);
 }
 
 /************************************************************************
@@ -226,7 +226,7 @@ void drawProjectile(const Point2D& pt)
  *   INPUT  center    The location of the fragment
  *          rotation  Which angle it is pointed
  *************************************************************************/
-void drawFragment(const Point2D& center, double rotation)
+void drawFragment(const Point& center, double rotation)
 {
    ColorRect rects[] =
    {
@@ -234,7 +234,7 @@ void drawFragment(const Point2D& center, double rotation)
    };
 
    for (int i = 0; i < sizeof(rects) / sizeof(ColorRect); i++)
-      glDrawRect(center, Point2D(), rects[i], rotation);
+      glDrawRect(center, Point(), rects[i], rotation);
 }
 
 /************************************************************************
@@ -243,7 +243,7 @@ void drawFragment(const Point2D& center, double rotation)
  *  INPUT center    The position of the ship
  *        rotation  Which direction it is point
  *************************************************************************/
-void drawCrewDragonCenter(const Point2D& center, double rotation)
+void drawCrewDragonCenter(const Point& center, double rotation)
 {
    ColorRect rects[] = 
    {
@@ -254,7 +254,7 @@ void drawCrewDragonCenter(const Point2D& center, double rotation)
    };
 
    for (int i = 0; i < sizeof(rects)/sizeof(ColorRect); i++)
-      glDrawRect(center, Point2D(), rects[i], rotation);
+      glDrawRect(center, Point(), rects[i], rotation);
 }
 
 /************************************************************************
@@ -265,7 +265,7 @@ void drawCrewDragonCenter(const Point2D& center, double rotation)
  *        offset    For pieces of the satellite, this is the relative position of the center
  *                  of rotation when it is connected to the main satellite
  *************************************************************************/
-void drawCrewDragonRight(const Point2D& center, double rotation, const Point2D& offset)
+void drawCrewDragonRight(const Point& center, double rotation, const Point& offset)
 {
    ColorRect rects[] =
    {
@@ -286,7 +286,7 @@ void drawCrewDragonRight(const Point2D& center, double rotation, const Point2D& 
  *        offset    For pieces of the satellite, this is the relative position of the center
  *                  of rotation when it is connected to the main satellite
  *************************************************************************/
-void drawCrewDragonLeft(const Point2D& center, double rotation, const Point2D& offset)
+void drawCrewDragonLeft(const Point& center, double rotation, const Point& offset)
 {
    ColorRect rects[] =
    {
@@ -306,16 +306,16 @@ void drawCrewDragonLeft(const Point2D& center, double rotation, const Point2D& o
  *  INPUT center    The position of the ship
  *        rotation  Which direction it is point
  *************************************************************************/
-void drawCrewDragon(const Point2D& center, double rotation)
+void drawCrewDragon(const Point& center, double rotation)
 {
    drawCrewDragonCenter(center, rotation);
 
-   Point2D posRight;
+   Point posRight;
    posRight.setPixelsX(-1.0);
    posRight.setPixelsY(11.0);
    drawCrewDragonRight( center, rotation, posRight);
    
-   Point2D posLeft;
+   Point posLeft;
    posLeft.setPixelsX(-1.0);
    posLeft.setPixelsY(-11.0);
    drawCrewDragonLeft(  center, rotation, posLeft);
@@ -327,7 +327,7 @@ void drawCrewDragon(const Point2D& center, double rotation)
  *  INPUT center    The position of the ship
  *        rotation  Which direction it is point
  *************************************************************************/
-void drawSputnik(const Point2D& center, double rotation)
+void drawSputnik(const Point& center, double rotation)
 {
    // draw the sphere                                               
    const PT pointsSphere[] =
@@ -366,7 +366,7 @@ void drawSputnik(const Point2D& center, double rotation)
  *        offset    For pieces of the satellite, this is the relative position of the center
  *                  of rotation when it is connected to the main satellite
  *************************************************************************/
-void drawGPSLeft(const Point2D& center, double rotation, const Point2D& offset)
+void drawGPSLeft(const Point& center, double rotation, const Point& offset)
 {
    ColorRect rects[] =
    {
@@ -405,7 +405,7 @@ void drawGPSLeft(const Point2D& center, double rotation, const Point2D& offset)
  *        offset    For pieces of the satellite, this is the relative position of the center
  *                  of rotation when it is connected to the main satellite
  *************************************************************************/
-void drawGPSRight(const Point2D& center, double rotation, const Point2D& offset)
+void drawGPSRight(const Point& center, double rotation, const Point& offset)
 {
    ColorRect rects[] =
    {
@@ -443,7 +443,7 @@ void drawGPSRight(const Point2D& center, double rotation, const Point2D& offset)
  *  INPUT center    The position of the ship
  *        rotation  Which direction it is point
  *************************************************************************/
-void drawGPSCenter(const Point2D& center, double rotation)
+void drawGPSCenter(const Point& center, double rotation)
 {
    ColorRect rects[4] =
    {
@@ -454,7 +454,7 @@ void drawGPSCenter(const Point2D& center, double rotation)
    };
 
    for (int i = 0; i < sizeof(rects) / sizeof(ColorRect); i++)
-      glDrawRect(center, Point2D(), rects[i], rotation);
+      glDrawRect(center, Point(), rects[i], rotation);
 }
 
 /************************************************************************
@@ -463,16 +463,16 @@ void drawGPSCenter(const Point2D& center, double rotation)
  *  INPUT center    The position of the ship
  *        rotation  Which direction it is point
  *************************************************************************/
-void drawGPS(const Point2D& center, double rotation)
+void drawGPS(const Point& center, double rotation)
 {
    drawGPSCenter(center, rotation);
    
-   Point2D posRight;
+   Point posRight;
    posRight.setPixelsX(0.0);
    posRight.setPixelsY(12.0);
    drawGPSRight(center, rotation, posRight);
    
-   Point2D posLeft;
+   Point posLeft;
    posLeft.setPixelsX(0.0);
    posLeft.setPixelsY(-12.0);
    drawGPSLeft(center,  rotation, posLeft);
@@ -486,7 +486,7 @@ void drawGPS(const Point2D& center, double rotation)
  *        offset    For pieces of the satellite, this is the relative position of the center
  *                  of rotation when it is connected to the main satellite
  *************************************************************************/
-void drawHubbleTelescope(const Point2D& center, double rotation, const Point2D& offset)
+void drawHubbleTelescope(const Point& center, double rotation, const Point& offset)
 {
    ColorRect rects[] =
    {
@@ -507,7 +507,7 @@ void drawHubbleTelescope(const Point2D& center, double rotation, const Point2D& 
  *        offset    For pieces of the satellite, this is the relative position of the center
  *                  of rotation when it is connected to the main satellite
  *************************************************************************/
-void drawHubbleComputer(const Point2D& center, double rotation, const Point2D& offset)
+void drawHubbleComputer(const Point& center, double rotation, const Point& offset)
 {
    ColorRect rects[] =
    {
@@ -529,7 +529,7 @@ void drawHubbleComputer(const Point2D& center, double rotation, const Point2D& o
  *        offset    For pieces of the satellite, this is the relative position of the center
  *                  of rotation when it is connected to the main satellite
  *************************************************************************/
-void drawHubbleLeft(const Point2D& center, double rotation, const Point2D& offset)
+void drawHubbleLeft(const Point& center, double rotation, const Point& offset)
 {
    ColorRect rects[] =
    {
@@ -564,7 +564,7 @@ void drawHubbleLeft(const Point2D& center, double rotation, const Point2D& offse
  *        offset    For pieces of the satellite, this is the relative position of the center
  *                  of rotation when it is connected to the main satellite
  *************************************************************************/
-void drawHubbleRight(const Point2D& center, double rotation, const Point2D& offset)
+void drawHubbleRight(const Point& center, double rotation, const Point& offset)
 {
    ColorRect rects[] =
    {
@@ -596,24 +596,24 @@ void drawHubbleRight(const Point2D& center, double rotation, const Point2D& offs
  *  INPUT center    The position of the ship
  *        rotation  Which direction it is point
  *************************************************************************/
-void drawHubble(const Point2D& center, double rotation)
+void drawHubble(const Point& center, double rotation)
 {
-   Point2D posTelescope;
+   Point posTelescope;
    posTelescope.setPixelsX(2.0);
    posTelescope.setPixelsY(0.0);
    drawHubbleTelescope(center, rotation, posTelescope);
 
-   Point2D posComputer;
+   Point posComputer;
    posComputer.setPixelsX(-10.0);
    posComputer.setPixelsY(0.0);
    drawHubbleComputer(center,  rotation, posComputer);
    
-   Point2D posRight;
+   Point posRight;
    posRight.setPixelsX(1.0);
    posRight.setPixelsY(-8.0);
    drawHubbleRight(center,     rotation, posRight);
 
-   Point2D posLeft;
+   Point posLeft;
    posLeft.setPixelsX(1.0);
    posLeft.setPixelsY(8.0);
    drawHubbleLeft(center,      rotation, posLeft);
@@ -627,7 +627,7 @@ void drawHubble(const Point2D& center, double rotation)
  *        offset    For pieces of the satellite, this is the relative position of the center
  *                  of rotation when it is connected to the main satellite
  *************************************************************************/
-void drawStarlinkBody(const Point2D& center, double rotation, const Point2D& offset)
+void drawStarlinkBody(const Point& center, double rotation, const Point& offset)
 {
    ColorRect rects[] =
    {
@@ -648,7 +648,7 @@ void drawStarlinkBody(const Point2D& center, double rotation, const Point2D& off
  *        offset    For pieces of the satellite, this is the relative position of the center
  *                  of rotation when it is connected to the main satellite
  *************************************************************************/
-void drawStarlinkArray(const Point2D& center, double rotation, const Point2D& offset)
+void drawStarlinkArray(const Point& center, double rotation, const Point& offset)
 {
    ColorRect rects[] =
    {
@@ -666,14 +666,14 @@ void drawStarlinkArray(const Point2D& center, double rotation, const Point2D& of
  *  INPUT center    The position of the ship
  *        rotation  Which direction it is point
  *************************************************************************/
-void drawStarlink(const Point2D& center, double rotation)
+void drawStarlink(const Point& center, double rotation)
 {
-   Point2D posBody;
+   Point posBody;
    posBody.setPixelsX(-1.0);
    posBody.setPixelsY(0.0);
    drawStarlinkBody(center,  rotation, posBody);
 
-   Point2D posArray;
+   Point posArray;
    posArray.setPixelsX(8.0);
    posArray.setPixelsY(-2.0);
    drawStarlinkArray(center, rotation, posArray);
@@ -688,7 +688,7 @@ void drawStarlink(const Point2D& center, double rotation)
  *                  of rotation when it is connected to the main satellite
  *        thrust    Whether the thrusters are on
  *************************************************************************/
-void drawShip(const Point2D& center, double rotation, bool thrust)
+void drawShip(const Point& center, double rotation, bool thrust)
 {
    // draw the white part of the ship                                               
    const PT pointsShipWhite[] =
@@ -743,7 +743,7 @@ void drawShip(const Point2D& center, double rotation, bool thrust)
  *  INPUT center    The position of the ship
  *        rotation  Which direction it is point
  *************************************************************************/
-void drawEarth(const Point2D& center, double rotation)
+void drawEarth(const Point& center, double rotation)
 {
    const int * colors[5] = 
    {
@@ -837,7 +837,7 @@ void drawEarth(const Point2D& center, double rotation)
                
                static_cast<int>(x * SCALE + SCALE),
                static_cast<int>(y * SCALE), colors[earth[y][x]]};
-            Point2D pos;
+            Point pos;
             pos.setPixelsX(-25.0 * SCALE);
             pos.setPixelsY(-25.0 * SCALE);
             glDrawRect(center, pos, rect, rotation);
@@ -852,7 +852,7 @@ void drawEarth(const Point2D& center, double rotation)
  *   INPUT  POINT     The position of the beginning of the star
  *          PHASE     The phase of the twinkling
  *************************************************************************/
-void drawStar(const Point2D& point, unsigned char phase)
+void drawStar(const Point& point, unsigned char phase)
 {
    // Get ready...
    glBegin(GL_POINTS);

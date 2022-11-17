@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "point2D.h"
+#include "point.h"
 #include <algorithm> // used for min() and max() (specifically required by Visual Studio)
 using std::min;
 using std::max;
@@ -35,7 +35,7 @@ public:
 
    // Constructor if you want to set up the window with anything but
    // the default parameters
-   Interface(int argc, char ** argv, const char * title, const Point2D & ptUpperRight)
+   Interface(int argc, char ** argv, const char * title, const Point & ptUpperRight)
    {
       initialize(argc, argv, title, ptUpperRight);
    }
@@ -77,7 +77,7 @@ public:
    static void (*callBack)(const Interface *, void *);
 
 private:
-   void initialize(int argc, char ** argv, const char * title, const Point2D & ptUpperRight);
+   void initialize(int argc, char ** argv, const char * title, const Point & ptUpperRight);
 
    static bool         initialized;  // only run the constructor once!
    static double       timePeriod;   // interval between frame draws

@@ -15,7 +15,7 @@
 #include <string>     // To display text on the screen
 #include <cmath>      // for M_PI, sin() and cos()
 #include <algorithm>  // used for min() and max()
-#include "point2D.h" // Where things are drawn
+#include "point.h" // Where things are drawn
 using std::string;
 using std::min;
 using std::max;
@@ -32,18 +32,18 @@ using std::max;
 class ogstream : public std::ostringstream
 {
 public:
-   ogstream(const Point2D& pt) : pt(pt) {}
+   ogstream(const Point& pt) : pt(pt) {}
    ~ogstream() { flush(); }; 
    void flush();
 
-   void setPosition(const Point2D& pt) { flush(); this->pt = pt; }
-   ogstream& operator = (const Point2D& pt)
+   void setPosition(const Point& pt) { flush(); this->pt = pt; }
+   ogstream& operator = (const Point& pt)
    {
       setPosition(pt);
       return *this;
    }
 private:
-   Point2D pt;
+   Point pt;
 };
 
 /************************************************************************
@@ -52,14 +52,14 @@ private:
  *   INPUT  pt     The location of the projectile
  *          age    The age in seconds. The younger, the brighter
  *************************************************************************/
-void drawFragment(const Point2D& center, double rotation);
+void drawFragment(const Point& center, double rotation);
 
 /************************************************************************
  * DRAW PROJECTILE
  * Draw a projectile on the screen at a given point.
  *   INPUT  pt     The location of the projectile
  *************************************************************************/
-void drawProjectile(const Point2D& pt);
+void drawProjectile(const Point& pt);
 
 /************************************************************************
  * DRAW Crew Dragon
@@ -69,10 +69,10 @@ void drawProjectile(const Point2D& pt);
  *        offset  For pieces of the satellite, this is the relative position of the center
  *                of rotation when it is connected to the main satellite
  *************************************************************************/
-void drawCrewDragon      (const Point2D& center, double rotation);
-void drawCrewDragonRight (const Point2D& center, double rotation, const Point2D& offset = Point2D());
-void drawCrewDragonLeft  (const Point2D& center, double rotation, const Point2D& offset = Point2D());
-void drawCrewDragonCenter(const Point2D& center, double rotation);
+void drawCrewDragon      (const Point& center, double rotation);
+void drawCrewDragonRight (const Point& center, double rotation, const Point& offset = Point());
+void drawCrewDragonLeft  (const Point& center, double rotation, const Point& offset = Point());
+void drawCrewDragonCenter(const Point& center, double rotation);
 
 /************************************************************************
  * DRAW Sputnik
@@ -80,7 +80,7 @@ void drawCrewDragonCenter(const Point2D& center, double rotation);
  *  INPUT point   The position of the ship
  *        angle   Which direction it is point
  *************************************************************************/
-void drawSputnik(const Point2D& center, double rotation);
+void drawSputnik(const Point& center, double rotation);
 
 /************************************************************************
  * DRAW GPS
@@ -90,10 +90,10 @@ void drawSputnik(const Point2D& center, double rotation);
  *        offset  For pieces of the satellite, this is the relative position of the center
  *                of rotation when it is connected to the main satellite
  *************************************************************************/
-void drawGPS      (const Point2D& center, double rotation);
-void drawGPSCenter(const Point2D& center, double rotation);
-void drawGPSRight (const Point2D& center, double rotation, const Point2D& offset = Point2D());
-void drawGPSLeft  (const Point2D& center, double rotation, const Point2D& offset = Point2D());
+void drawGPS      (const Point& center, double rotation);
+void drawGPSCenter(const Point& center, double rotation);
+void drawGPSRight (const Point& center, double rotation, const Point& offset = Point());
+void drawGPSLeft  (const Point& center, double rotation, const Point& offset = Point());
 
 /************************************************************************
  * DRAW Hubble
@@ -103,11 +103,11 @@ void drawGPSLeft  (const Point2D& center, double rotation, const Point2D& offset
  *        offset  For pieces of the satellite, this is the relative position of the center
  *                of rotation when it is connected to the main satellite
  *************************************************************************/
-void drawHubble         (const Point2D& center, double rotation);
-void drawHubbleComputer (const Point2D& center, double rotation, const Point2D& offset = Point2D());
-void drawHubbleTelescope(const Point2D& center, double rotation, const Point2D& offset = Point2D());
-void drawHubbleLeft     (const Point2D& center, double rotation, const Point2D& offset = Point2D());
-void drawHubbleRight    (const Point2D& center, double rotation, const Point2D& offset = Point2D());
+void drawHubble         (const Point& center, double rotation);
+void drawHubbleComputer (const Point& center, double rotation, const Point& offset = Point());
+void drawHubbleTelescope(const Point& center, double rotation, const Point& offset = Point());
+void drawHubbleLeft     (const Point& center, double rotation, const Point& offset = Point());
+void drawHubbleRight    (const Point& center, double rotation, const Point& offset = Point());
 
 /************************************************************************
  * DRAW Starlink
@@ -117,9 +117,9 @@ void drawHubbleRight    (const Point2D& center, double rotation, const Point2D& 
  *        offset  For pieces of the satellite, this is the relative position of the center
  *                of rotation when it is connected to the main satellite
  *************************************************************************/
-void drawStarlink     (const Point2D& center, double rotation);
-void drawStarlinkBody (const Point2D& center, double rotation, const Point2D& offset = Point2D());
-void drawStarlinkArray(const Point2D& center, double rotation, const Point2D& offset = Point2D());
+void drawStarlink     (const Point& center, double rotation);
+void drawStarlinkBody (const Point& center, double rotation, const Point& offset = Point());
+void drawStarlinkArray(const Point& center, double rotation, const Point& offset = Point());
 
 /************************************************************************
  * DRAW Ship
@@ -128,14 +128,14 @@ void drawStarlinkArray(const Point2D& center, double rotation, const Point2D& of
  *        angle   Which direction it is pointed
  *        thrust  Whether the thrusters are on
  *************************************************************************/
-void drawShip(const Point2D& center, double rotation, bool thrust);
+void drawShip(const Point& center, double rotation, bool thrust);
 /************************************************************************
  * DRAW Earth
  * Draw Earth
  *  INPUT point   The position of the ship
  *        angle   Which direction it is pointed (time of day!)
  *************************************************************************/
-void drawEarth(const Point2D& center, double rotation);
+void drawEarth(const Point& center, double rotation);
 
 /************************************************************************
 * DRAW STAR
@@ -143,7 +143,7 @@ void drawEarth(const Point2D& center, double rotation);
 *   INPUT  POINT     The position of the beginning of the star
 *          PHASE     The phase of the twinkling
 *************************************************************************/
-void drawStar(const Point2D& point, unsigned char phase);
+void drawStar(const Point& point, unsigned char phase);
 
 /******************************************************************
  * RANDOM
