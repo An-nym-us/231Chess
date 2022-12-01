@@ -1,71 +1,6 @@
 #pragma once
 
 
-//
-///*********************************************
-// * Point
-// * A single position on the field in Meters
-// *********************************************/
-//
-//class Point
-//{
-//
-//   friend class unitTests;
-//public:
-//
-//
-//   // constructors
-//   Point() : x(0.0), y(0.0) {}
-//   Point(double x, double y);
-//   Point(const Point& pt) : x(pt.x), y(pt.y) {}
-//   Point& operator = (const Point& pt);
-//
-//   [double getMetersX()       const { return x; }
-//   double getMetersY()       const { return y; }
-//   double getPixelsX()       const { return x / metersFromPixels; }
-//   double getPixelsY()       const { return y / metersFromPixels; }
-//
-//   // setters
-//   void setMeters(double xMeters, double yMeters) { x = xMeters; y = yMeters; }
-//   void setMetersX(double xMeters) { x = xMeters; }
-//   void setMetersY(double yMeters) { y = yMeters; }
-//
-//   void addMetersX(double dxMeters) { setMetersX(getMetersX() + dxMeters); }
-//   void addMetersY(double dyMeters) { setMetersY(getMetersY() + dyMeters); }
-//   // getters
-//
-//
-//
-//   // setters
-//
-//
-//   void setPixelsX(double xPixels) { x = xPixels * metersFromPixels; }
-//   void setPixelsY(double yPixels) { y = yPixels * metersFromPixels; }
-//
-//   void addPixelsX(double dxPixels) { setPixelsX(getPixelsX() + dxPixels); }
-//   void addPixelsY(double dyPixels) { setPixelsY(getPixelsY() + dyPixels); }
-//   // deal with the ratio of meters to pixels
-//   double computeDistance(const Point& pos1, const Point& pos2)
-//   {
-//      return sqrt((pos1.getMetersX() - pos2.getMetersX()) * (pos1.getMetersX() - pos2.getMetersX()) +
-//         (pos1.getMetersY() - pos2.getMetersY()) * (pos1.getMetersY() - pos2.getMetersY()));
-//   }
-//
-//private:
-//   double x;                 // horizontal position
-//   double y;                 // vertical position
-//   static double metersFromPixels;
-//
-//
-//
-//protected:
-//
-//
-//};
-//   ]
-
-
-
 
 
 
@@ -89,7 +24,25 @@ public:
    Point() : x(0.0), y(0.0) {}
    Point(double x, double y) { this->x = x; this->y = y; }
    Point(const Point& pt) : x(pt.x), y(pt.y) {}
-   Point& operator = (const Point& pt);
+
+   Point operator = (Point pt)
+   {
+      Point temp;
+      temp.x = pt.getMetersX();
+      temp.y = pt.getMetersY();
+      return temp   ;
+   }
+
+   Point operator + (Point rhs)
+   {
+      Point temp;
+      temp.x = rhs.getMetersX();
+      temp.y = rhs.getMetersY();
+
+      temp.x += this->x;
+      temp.y += this->y;
+      return temp;
+   }
 
    // getters
    double getMetersX()       const { return x; }
@@ -120,6 +73,10 @@ public:
       return sqrt((pos1.getMetersX() - pos2.getMetersX()) * (pos1.getMetersX() - pos2.getMetersX()) +
          (pos1.getMetersY() - pos2.getMetersY()) * (pos1.getMetersY() - pos2.getMetersY()));
    }
+
+
+   
+
 
 
 private:

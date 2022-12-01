@@ -11,12 +11,12 @@
  *      ??
  *****************************************************************/
 
+#include <set>
 #include <cassert>      // for ASSERT
 #include "uiInteract.h" // for INTERFACE
 #include "uiDraw.h"     // for RANDOM and DRAW*
-//#include "point2D.h"      // for POINT
-#include "gps.h"
-#include "unitTests.h"
+#include "spaceObjects.h"
+
 using namespace std;
 
 /*************************************************************************
@@ -29,34 +29,50 @@ public:
    Demo(Point ptUpperRight) :
       ptUpperRight(ptUpperRight)
    {
-    //  ptHubble.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
-    //  ptHubble.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
 
-     // ptSputnik.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
-    //  ptSputnik.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
 
-    //  ptStarlink.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
-    //  ptStarlink.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
+      ptShip.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
+      ptShip.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
 
-    //  ptCrewDragon.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
-    //  ptCrewDragon.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
+      // Add GPS units
+      gpsGroup.insert(new GPS(0, 26560000, -3880, 0, 3900)); //  value in meters)
+      gpsGroup.insert(new GPS(0, -26560000, 3880, 0, 3900)); //  value in meters)
 
-    //  ptShip.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
-    //  ptShip.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
+      gpsGroup.insert(new GPS(23001634, 13280000, -1940, 3360, 3900)); //  value in meters)
+      gpsGroup.insert(new GPS(23001634, -13280000, 1940, 3360, 3900)); //  value in meters)
 
-     // ptGPS.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
-      //ptGPS.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
-      
-     
+      gpsGroup.insert(new GPS(23001634, -13280000, -1940, -3360, 3900)); //  value in meters)
+      gpsGroup.insert(new GPS(-23001634, 13280000, 1940, -3360, 3900)); //  value in meters)
 
-      //gps = new GPS(0, 42164000); //  value in meters
 
-    //  ptStar.setPixelsX(ptUpperRight.getPixelsX() * random(-0.5, 0.5));
-    //  ptStar.setPixelsY(ptUpperRight.getPixelsY() * random(-0.5, 0.5));
+
+      dragonCrew = new DragonCrew(0, 12164000);
+      dragonCrew->setGeoTargetVelocity(-7900);
+
+      hubble = new Hubble(0, -42164000);
+      hubble->setGeoTargetVelocity(3100);
+
+      sputnik = new Sputnik(-36515095, 21082000);
+      sputnik->setGeoTargetVelocity(3362);
+
+
+
+      // create multiple instances of starlink units
+      for (int i = 0; i < 10; i++)
+      {
+         starlinks.insert(new Starlink(0, ( -13020000 * random(-0.5, 0.5)), 5800, 0, random(-0.5, 0.5) * 5800));
+      }
+
+      // create star instances in background
+      for (int i = 0; i < 700; i++)
+      {
+         stars.insert(new Star(random(-77777777.0, 77777777.0), random(-77777777.0, 77777777.0),   random(-100, 100) ));
+      }
+
 
       angleShip = 0.0;
       angleEarth = 0.0;
-      phaseStar = 0;
+
 
 
 
@@ -66,20 +82,20 @@ public:
   
    
 
+   std::set<GPS*> gpsGroup;
+   std::set<Starlink*> starlinks;
+   std::set<Fragments*> Fragments;
+   std::set<Star*> stars;
 
-  // GPS* gps;
+   DragonCrew* dragonCrew;
+   Hubble* hubble;
+   Sputnik* sputnik;
 
-   
-   Point ptHubble;
-   Point ptSputnik;
-   Point ptStarlink;
-   Point ptCrewDragon;
+
    Point ptShip;
-   //Point ptGPS;
+
    Point ptStar;
    Point ptUpperRight;
-
-   unsigned char phaseStar;
 
    double angleShip;
    double angleEarth;
@@ -112,6 +128,7 @@ void callBack(const Interface* pUI, void* p)
 
    // move by a little
    if (pUI->isUp())
+      
       pDemo->ptShip.addPixelsY(1.0);
    if (pUI->isDown())
       pDemo->ptShip.addPixelsY(-1.0);
@@ -128,7 +145,7 @@ void callBack(const Interface* pUI, void* p)
    // rotate the earth
    pDemo->angleEarth += 0.01;
    pDemo->angleShip += 0.02;
-   pDemo->phaseStar++;
+
 
    //
    // draw everything
@@ -138,51 +155,60 @@ void callBack(const Interface* pUI, void* p)
 
 
 
-   //drawGPSCenter(pt, pDemo->angleShip);
-  // pDemo->gps->updateTransformRelitiveToEarth();
-  // drawGPS(pDemo->gps->getPostion(), pDemo->angleShip);  // Display the GPS to the Screen.
-  
+
+   for (auto i : pDemo->gpsGroup)
+   {
+      i->updateTransformRelitiveToEarth();
+      drawGPS(i->getPostion(), pDemo->angleShip);
+   }
+      
+   for (auto i : pDemo->starlinks)
+   {
+      i->updateTransformRelitiveToEarth();
+      drawStarlink(i->getPostion(), pDemo->angleShip);
+   }
+
+
+   for (auto i : pDemo->stars)
+   {
+      i->UpdatePhase();
+      drawStar(i->getPostion(), i->getPhase());
+   }
+
+
+   pDemo->dragonCrew->updateTransformRelitiveToEarth();
+   drawCrewDragon(pDemo->dragonCrew->getPostion(), pDemo->angleShip);
 
 
 
+   pDemo->hubble->updateTransformRelitiveToEarth();
+   drawHubble(pDemo->hubble->getPostion(), pDemo->angleShip);
 
+
+   pDemo->sputnik->updateTransformRelitiveToEarth();
+   drawSputnik(pDemo->sputnik->getPostion() , pDemo->angleShip);
 
 
 
 
 
    // draw satellites
-   drawCrewDragon(pDemo->ptCrewDragon, pDemo->angleShip);
-   drawHubble    (pDemo->ptHubble,     pDemo->angleShip);
-   drawSputnik   (pDemo->ptSputnik,    pDemo->angleShip);
-   drawStarlink  (pDemo->ptStarlink,   pDemo->angleShip);
-   drawShip      (pDemo->ptShip,       pDemo->angleShip, pUI->isSpace());
+   //drawCrewDragon(pDemo->ptCrewDragon, pDemo->angleShip);
+  // drawHubble    (pDemo->ptHubble,     pDemo->angleShip);
+  // drawSputnik   (pDemo->ptSputnik,    pDemo->angleShip);
+  // drawStarlink  (pDemo->ptStarlink,   pDemo->angleShip);
    //drawGPS       (pDemo->ptGPS,        pDemo->angleShip);
+   drawShip      (pDemo->ptShip,       pDemo->angleShip, pUI->isSpace());
 
-   // draw parts
-   pt.setPixelsX(pDemo->ptCrewDragon.getPixelsX() + 20);
-   pt.setPixelsY(pDemo->ptCrewDragon.getPixelsY() + 20);
-   drawCrewDragonRight(pt, pDemo->angleShip); // notice only two parameters are set
-   pt.setPixelsX(pDemo->ptHubble.getPixelsX() + 20);
-   pt.setPixelsY(pDemo->ptHubble.getPixelsY() + 20);
-   drawHubbleLeft(pt, pDemo->angleShip);      // notice only two parameters are set
-   //pt.setPixelsX(pDemo->ptGPS.getPixelsX() + 20);
-   //pt.setPixelsY(pDemo->ptGPS.getPixelsY() + 20);
-  // drawGPSCenter(pt, pDemo->angleShip);       // notice only two parameters are set
-   pt.setPixelsX(pDemo->ptStarlink.getPixelsX() + 20);
-   pt.setPixelsY(pDemo->ptStarlink.getPixelsY() + 20);
-   drawStarlinkArray(pt, pDemo->angleShip);   // notice only two parameters are set
 
-   // draw fragments
-   pt.setPixelsX(pDemo->ptSputnik.getPixelsX() + 20);
-   pt.setPixelsY(pDemo->ptSputnik.getPixelsY() + 20);
-   drawFragment(pt, pDemo->angleShip);
+   //pt.setPixelsX(pDemo->ptStarlink.getPixelsX() + 20);
+   //pt.setPixelsY(pDemo->ptStarlink.getPixelsY() + 20);
+   //drawStarlinkArray(pt, pDemo->angleShip);   // notice only two parameters are set
+
+
    pt.setPixelsX(pDemo->ptShip.getPixelsX() + 20);
    pt.setPixelsY(pDemo->ptShip.getPixelsY() + 20);
    drawFragment(pt, pDemo->angleShip);
-
-   // draw a single star
-   drawStar(pDemo->ptStar, pDemo->phaseStar);
 
    // draw the earth
    pt.setMeters(0.0, 0.0);
@@ -206,7 +232,7 @@ int main(int argc, char** argv)
 #endif // !_WIN32
 {
    
-   unitTests().runner();
+   //unitTests().runner();
    
    
    

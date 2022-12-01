@@ -27,9 +27,6 @@
     <ClCompile Include="point2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gps.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="object.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -44,10 +41,7 @@
     <ClInclude Include="uiInteract.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DEPpoint2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gps.h">
+    <ClInclude Include="spaceObjects.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="unitTests.h">

@@ -75,15 +75,15 @@ void unitTests::runner()
    updateVelocity_3();
    updateVelocity_4(); 
 
-   //updateAcceleration_1();
-   //updateAcceleration_2();
-   //updateAcceleration_3();
-   //updateAcceleration_4();
+   updateAcceleration_1();
+   updateAcceleration_2();
+   updateAcceleration_3();
+   updateAcceleration_4();
 
-   //updatelocation_1();
-   //updatelocation_2();
-   //updatelocation_3();
-   //updatelocation_4();
+   updatelocation_1();
+   updatelocation_2();
+   updatelocation_3();
+   updatelocation_4();
 
    setMeters_1();
    setMeters_2();
@@ -261,7 +261,7 @@ void unitTests::updateAcceleration_1()
    obj->updateAcceleration();
    //Verify
    assert(obj->ddx == 0);
-   assert(obj->ddy == -9.8);
+   assert(obj->ddy == 0);
 
 
    //Teardown
@@ -287,10 +287,9 @@ void unitTests::updateAcceleration_2()
    // Exercise 
    obj->updateAcceleration();
    //Verify
-   assert(obj->ddx <= -6.7);
-   assert(obj->ddx >= -6.9);
-   assert(obj->ddy <= -6.7);
-   assert(obj->ddy >= -6.9);
+
+   assert(obj->ddx == 0);
+   assert(obj->ddy == 0);
 
 
    //Teardown
@@ -316,7 +315,7 @@ void unitTests::updateAcceleration_3()
    // Exercise 
    obj->updateAcceleration();
    //Verify
-   assert(obj->ddx == -9.8);
+   assert(obj->ddx == 0);
    assert(obj->ddy == 0);
 
 
@@ -343,7 +342,7 @@ void unitTests::updateAcceleration_4()
    // Exercise 
    obj->updateAcceleration();
    //Verify
-   assert(obj->ddx == -9.8);
+   assert(obj->ddx == 1);
    assert(obj->ddy == 1);
 
 
@@ -397,8 +396,8 @@ void unitTests::updatelocation_2()
    // Exercise 
    obj->updatelocation();
    //Verify
-   assert(obj->location.getMetersX() == 2);
-   assert(obj->location.getMetersY() == 2);
+   assert(obj->location.getMetersX() == 1);
+   assert(obj->location.getMetersY() == 1);
 
 
    //Teardown
@@ -423,8 +422,8 @@ void unitTests::updatelocation_3()
    // Exercise 
    obj->updatelocation();
    //Verify
-   assert(obj->location.getMetersX() == 2.5);
-   assert(obj->location.getMetersY() == 2.5);
+   assert(obj->location.getMetersX() == 1);
+   assert(obj->location.getMetersY() == 1);
 
 
    //Teardown
@@ -449,8 +448,8 @@ void unitTests::updatelocation_4()
    // Exercise 
    obj->updatelocation();
    //Verify
-   assert(obj->location.getMetersX() == 1.5);
-   assert(obj->location.getMetersY() == 1.5);
+   assert(obj->location.getMetersX() == 1);
+   assert(obj->location.getMetersY() == 1);
 
 
    //Teardown

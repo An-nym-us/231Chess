@@ -1,1 +1,4 @@
 D:\GitHubGeneticMovedHere\231Chess\ORB Sim\x64\Debug\Lab07.exe
+D:\GitHubGeneticMovedHere\231Chess\ORB Sim\x64\Debug\Lab07.vcxproj.MdMergeInputs.cache
+D:\GitHubGeneticMovedHere\231Chess\ORB Sim\x64\Debug\Lab07.vcxproj.cppwinrt_plat.cache
+D:\GitHubGeneticMovedHere\231Chess\ORB Sim\x64\Debug\Lab07.vcxproj.cppwinrt_comp.cache
